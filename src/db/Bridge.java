@@ -6,8 +6,8 @@ import java.sql.*;
  * Class that connects with the database
  */
 public class Bridge {
-    final String DRIVER = "oracle.jdbc.driver.OracleDriver";
-    final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
+    private final String DRIVER = "oracle.jdbc.driver.OracleDriver";
+    private final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
 
     /**
      * Searches the Driver class

@@ -1,5 +1,4 @@
 package db;
-import javax.swing.*;
 import java.sql.*;
 
 /**
@@ -27,32 +26,36 @@ public class Queries {
         }
     }
 
-    private void execute(String query) {
+    private String execute(String query) {
         try {
             rst = stmt.executeQuery(query);
-            System.out.println(rst);
+            return rst.toString();
         } catch (SQLException throwables) {
-            JOptionPane.showMessageDialog(null, throwables.getMessage());
+            return throwables.getMessage();
         }
     }
 
-    public void insertIntoDevs(String id, String name, String fk) {
+    public String insertIntoDevs(String id, String name, String fk) {
         String query = "insert into Developers values(" + id + ", '" + name + "', " + fk + ")";
-        execute(query);
+        return execute(query);
     }
 
-    public void insertIntoPubs(String id, String name) {
+    public String insertIntoPubs(String id, String name) {
         String query = "insert into Publishers values(" + id + ", '" + name + "')";
-        execute(query);
+        return execute(query);
     }
 
-    public void update(String table, String column, Object value) {
+    public String update(String table, String column, Object value) {
         String query = "update " + table + " set " + column + " = " + value;
-        execute(query);
+        return execute(query);
     }
 
-    public void delete(String table, String whereColumn, String whereVal) {
+    public String delete(String table, String whereColumn, String whereVal) {
         String query = "delete from " + table + " where " + whereColumn + " = " + whereVal;
-        execute(query);
+        return execute(query);
+    }
+
+    public void closeBridge() {
+        bridge.closeAll(rst, stmt, conn);
     }
 }
