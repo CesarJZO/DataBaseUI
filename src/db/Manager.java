@@ -2,17 +2,18 @@ package db;
 
 import ui.Window;
 import ui.panels.*;
-
 import javax.swing.*;
-import java.util.Objects;
 
+/**
+ * Class to control the operations of the database management
+ */
 public class Manager {
     private final Window window;
     private Queries queries;
-    private Login loginPanel;
-    private Insert insertPanel;
-    private Update updatePanel;
-    private Delete deletePanel;
+    private final Login loginPanel;
+    private final Insert insertPanel;
+    private final Update updatePanel;
+    private final Delete deletePanel;
 
     public Manager() {
         String[] tables = {"Publishers", "Developers"};
@@ -35,7 +36,7 @@ public class Manager {
 
     private void setActionListeners() {
         final String errorMessage = "Please, insert all the values";
-        loginPanel = (Login) window.getCentralPanel().getComponent(0);
+
         loginPanel.getLoginBtn().addActionListener(e -> { // Login a user
             if (loginPanel.isEmpty())
                 JOptionPane.showMessageDialog(window, errorMessage);
@@ -47,22 +48,22 @@ public class Manager {
             loginPanel.reset();
         });
 
-        insertPanel = (Insert) window.getCentralPanel().getComponent(1);
         insertPanel.getInsertBtn().addActionListener(e -> { // Inserts in the selected table
-            String selectedTable = (String)insertPanel.getTableBox().getSelectedItem();
+            String selectedTable = insertPanel.getSelectedTable();
             String message;
-            if (Objects.equals(selectedTable, "Developers"))
+            if (selectedTable.equals("Developers"))
                 message = queries.insertIntoDevs(
                         insertPanel.getID(),
                         insertPanel.getName(),
                         insertPanel.getForeignKey());
             else
-                message = queries.insertIntoPubs(insertPanel.getID(), insertPanel.getName());
+                message = queries.insertIntoPubs(
+                        insertPanel.getID(),
+                        insertPanel.getName());
             JOptionPane.showMessageDialog(window, message);
             insertPanel.reset();
         });
 
-        updatePanel = (Update) window.getCentralPanel().getComponent(2);
         updatePanel.getUpdateBtn().addActionListener(e -> {
             String message;
             message = queries.update(updatePanel.getSelectedTable(), updatePanel.getSet(), updatePanel.getValue());
@@ -70,7 +71,6 @@ public class Manager {
             updatePanel.reset();
         });
 
-        deletePanel = (Delete) window.getCentralPanel().getComponent(3);
         deletePanel.getDeleteBtn().addActionListener(e -> {
             String message;
             message = queries.delete(deletePanel.getSelectedTable(), deletePanel.getWhere(), deletePanel.getValue());

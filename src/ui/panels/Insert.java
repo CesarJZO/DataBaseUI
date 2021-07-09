@@ -69,8 +69,8 @@ public class Insert extends JPanel {
         return insertBtn;
     }
 
-    public JComboBox<String> getTableBox() {
-        return tableBox;
+    public String getSelectedTable() {
+        return (String) tableBox.getSelectedItem();
     }
 
     public String getID() {
